@@ -97,17 +97,15 @@ test ${RRTRACEMINE} -eq 1 -a $# -lt 1 && {
 
 # do a git pull on a module
 function modpull() {
-  local repourl=$1
   test x${RRMODPULL} = xnever && return 0
   local localpull="RRMODPULL_${1//-/_}"
   localpull="${localpull//\./_}"
   test x${!localpull:-unset} = xnever && return 0
-  test x${RRMODDELA} = xTRUE && sleep $[ ( $RANDOM % 5 ) + 5 ]s
+  test x${RRMODDELA} = xTRUE && sleep .$[ ( $RANDOM % 5 ) + 1 ]s
 
   logvvv git remote -v
-
-  git clone -q $repourl $name >/dev/null 2>&1
-}
+  git pull --quiet --ff-only --rebase
+} 
 
 # include config files for module
 function getconfig() {
